@@ -55,8 +55,7 @@ const Schema = new mongoose.Schema({
     Branch:String,
     Hobbies:String,
     image:{
-          data: Buffer,
-          contentType: String
+          type: String;
     } 
 });
 //COLLECTION CREATION
