@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <% if(details!=null){ %>
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Roll_No</th>
+                <th>Branch</th>
+                <th>Hobbies</th>
+                <th>Images</th>
+            </tr>
+            <% details.forEach(function(item){ %>
+            <tr>
+                <form action="/del" method="post">
+                <td><%=item.Name%></td>
+                <td><%=item.Roll_No%></td>
+                <td><%=item.Branch%></td>
+                <td><%=item.Hobbies%></td>
+                <td><img src="<%= item.image%>" width="50"/></td>
+                <td><button type="submit" name="submit" value="<%=item._id%>">Delete</button></td>
+            </form>
+            </tr>
+        <% }) %>
+        </table>
+        <% } %>
+
+    
+</body>
+</html>
