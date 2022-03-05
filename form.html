@@ -9,7 +9,7 @@
 <body>
     <div class="Crud_Operation">
         <h1>Form</h1>
-        <form autocomplete="off" action="/" method="post">
+        <form autocomplete="off" action="/" method="post" enctype="multipart/form-data">
             <p>Image</p>
             <img src="img" name="image">   
         <p>Name</p>
@@ -21,7 +21,10 @@
         <p>Hobbies</p>
         <input type="text" name="hobbies" placeholder="Enter your hobbies"><br>
         <p>Select Image</p>
-        <input type="file" name="image"><br><br>
+        <input 
+                    type="file" 
+                    name="image" 
+                    id="image" >
         <button type=submit>SUBMIT</button>
     </form>
     </div>

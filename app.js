@@ -9,7 +9,26 @@ app.set('view engine','ejs');
 const PORT = process.env.PORT || 7000;
 app.use (express.urlencoded ({extended:true}));
 var port=7000;
-const upload = multer({ dest: 'uploads/'})
+const fileStorage = multer.diskStorage({
+    destination: (req, file, cb) => {
+      cb(null, "images");
+    },
+    filename: (req, file, cb) => {
+      cb(null, new Date().getTime() + "-" + file.originalname);
+    },
+  });
+  
+  const fileFilter = (req, file, cb) => {
+    if (
+      file.mimetype === "image/png" ||
+      file.mimetype === "image/jpg" ||
+      file.mimetype === "image/jpeg"
+    ) {
+      cb(null, true);
+    } else {
+      cb(null, false);
+    }
+  };
 mongoose.connect("mongodb://localhost:27017/crud");
 const db = mongoose.connection;
 db.on('error',function(error){
@@ -23,11 +42,7 @@ app.use(express.json());
 app.use(express.static("uploads"));
 
 // Storage
-const Storage = multer.diskStorage({
-    destination: function(req,file,cb){
-        cb(null,file.originalname)
-    },  
-})
+
 // const uploads = multer({
 //     storage : Storage
 // }).single('image')
@@ -40,8 +55,7 @@ const Schema = new mongoose.Schema({
     Branch:String,
     Hobbies:String,
     image:{
-          data: Buffer,
-          contentType: String
+          type: String;
     } 
 });
 //COLLECTION CREATION
@@ -71,16 +85,16 @@ app.get("/login",(req,res)=>{
     res.sendFile(__dirname + "/form.html");
 });
 
-app.post("/",upload.single("image"),(req,res) => {
+app.post("/",multer({ storage: fileStorage, fileFilter: fileFilter }).single("image"),(req,res) => {
     let nUser = new User({
         Name:req.body.name,
         Roll_No:req.body.number,
         Branch:req.body.branch,
         Hobbies:req.body.hobbies,
-        image:{
-             data :req.file,
-             contentType: 'image/png',
-        }
+        image:req.file.path
+            
+             
+        
     });
     nUser.save();
     res.send("Saved");
